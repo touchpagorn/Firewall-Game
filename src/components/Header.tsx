@@ -4,6 +4,7 @@ import { ShieldCheck, BookOpen, RefreshCw, Trophy, Settings } from 'lucide-react
 interface HeaderProps {
   onOpenQuestionBank: () => void;
   onOpenSetup: () => void;
+  onOpenLeaderboard: () => void;
   onResetGame: () => void;
   isPlaying: boolean;
   score?: number;
@@ -15,6 +16,7 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   onOpenQuestionBank,
   onOpenSetup,
+  onOpenLeaderboard,
   onResetGame,
   isPlaying,
   score = 0,
@@ -73,11 +75,20 @@ export const Header: React.FC<HeaderProps> = ({
           )}
 
           <button
-            onClick={onOpenQuestionBank}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-white/10 border border-white/20 text-[#FFD100] hover:bg-[#FFD100]/20 hover:border-[#FFD100]/40 transition-all cursor-pointer shadow-sm"
+            onClick={onOpenLeaderboard}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#FFD100]/20 border border-[#FFD100]/40 text-[#FFD100] hover:bg-[#FFD100] hover:text-[#000000] transition-all cursor-pointer shadow-sm"
+            title="ดู Dashboard ผู้ทำได้ 5 คะแนนเต็ม"
           >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>คลังคำถาม ({totalQuestionsInBank} ข้อ)</span>
+            <Trophy className="w-3.5 h-3.5" />
+            <span className="hidden md:inline">Dashboard</span>
+          </button>
+
+          <button
+            onClick={onOpenQuestionBank}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-white/10 border border-white/20 text-white hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer shadow-sm"
+          >
+            <BookOpen className="w-3.5 h-3.5 text-[#FFD100]" />
+            <span>คลังคำถาม ({totalQuestionsInBank})</span>
           </button>
 
           <button

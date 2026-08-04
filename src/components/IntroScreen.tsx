@@ -5,6 +5,7 @@ interface IntroScreenProps {
   onStartQuiz: () => void;
   onOpenQuestionBank: () => void;
   onOpenSetup: () => void;
+  onOpenLeaderboard: () => void;
   timePerQuestion?: number;
   totalQuestionsInBank?: number;
 }
@@ -13,6 +14,7 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({
   onStartQuiz,
   onOpenQuestionBank,
   onOpenSetup,
+  onOpenLeaderboard,
   timePerQuestion = 10,
   totalQuestionsInBank = 15,
 }) => {
@@ -73,30 +75,38 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({
         </div>
 
         {/* CTA Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-3.5">
           <button
             onClick={onStartQuiz}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-10 py-4 rounded-2xl bg-[#FFD100] hover:bg-[#ffe066] text-[#000000] font-black tracking-tight transition-all shadow-lg shadow-[#FFD100]/25 text-base sm:text-lg cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-2xl bg-[#FFD100] hover:bg-[#ffe066] text-[#000000] font-black tracking-tight transition-all shadow-lg shadow-[#FFD100]/25 text-base cursor-pointer"
           >
             <Play className="w-5 h-5 fill-[#000000]" />
-            <span>เริ่มเล่นเกมทันที (จับเวลา {timePerQuestion} วิ/ข้อ)</span>
+            <span>เริ่มเล่นเกม (จับเวลา {timePerQuestion} วิ/ข้อ)</span>
+          </button>
+
+          <button
+            onClick={onOpenLeaderboard}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-[#FFD100]/20 border border-[#FFD100]/40 text-[#FFD100] font-bold hover:bg-[#FFD100] hover:text-[#000000] transition-all text-sm cursor-pointer shadow-md"
+          >
+            <Trophy className="w-4 h-4" />
+            <span>Dashboard สรุปอันดับ</span>
           </button>
 
           <button
             onClick={onOpenQuestionBank}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white/80 font-bold hover:bg-white/10 hover:text-white transition-all text-sm sm:text-base cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-white/5 border border-white/10 text-white/80 font-bold hover:bg-white/10 hover:text-white transition-all text-sm cursor-pointer"
           >
             <BookOpen className="w-4 h-4 text-[#FFD100]" />
-            <span>ดูคลังคำถาม ({totalQuestionsInBank} ข้อ)</span>
+            <span>คลังคำถาม ({totalQuestionsInBank})</span>
           </button>
 
           <button
             onClick={onOpenSetup}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-[#FFD100]/15 border border-[#FFD100]/30 text-[#FFD100] font-bold hover:bg-[#FFD100] hover:text-[#000000] transition-all text-sm sm:text-base cursor-pointer shadow-md"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-white/5 border border-white/10 text-white/70 font-bold hover:bg-white/10 hover:text-white transition-all text-sm cursor-pointer"
             title="ตั้งค่าเวลานับถอยหลังต่อข้อ และจัดการคลังคำถาม"
           >
             <Settings className="w-4 h-4" />
-            <span>ตั้งค่าระบบ (เวลา / คำถาม)</span>
+            <span>ตั้งค่าระบบ</span>
           </button>
         </div>
       </div>

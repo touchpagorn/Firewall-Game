@@ -1,25 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { QuizQuestion, UserAnswer } from '../types';
-import { RefreshCw, BookOpen, CheckCircle2, XCircle, Award, ShieldCheck, Sparkles, Trophy, AlertTriangle, Clock } from 'lucide-react';
+import { saveLeaderboardEntry } from '../utils/storage';
+import {
+  RefreshCw,
+  BookOpen,
+  CheckCircle2,
+  XCircle,
+  Award,
+  ShieldCheck,
+  Sparkles,
+  Trophy,
+  AlertTriangle,
+  Clock,
+  Send,
+  User,
+  Mail,
+  Zap,
+} from 'lucide-react';
 
 interface ResultScreenProps {
   questions: QuizQuestion[];
   answers: UserAnswer[];
+  durationSeconds: number;
   onPlayAgain: () => void;
   onOpenQuestionBank: () => void;
+  onOpenLeaderboard: () => void;
 }
 
 export const ResultScreen: React.FC<ResultScreenProps> = ({
   questions,
   answers,
+  durationSeconds,
   onPlayAgain,
   onOpenQuestionBank,
+  onOpenLeaderboard,
 }) => {
   const correctCount = answers.filter((a) => a.isCorrect).length;
   const totalCount = questions.length;
   const percentage = Math.round((correctCount / totalCount) * 100);
   const isWin = correctCount >= 3;
+  const isPerfectScore = correctCount === 5;
+
+  // Form State for 5/5 score submission
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formError, setFormError] = useState('');
 
   useEffect(() => {
     if (isWin) {
@@ -31,6 +58,28 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
       });
     }
   }, [isWin]);
+
+  const handleSubmitRecord = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!userName.trim()) {
+      setFormError('กรุณากรอกชื่อของคุณ');
+      return;
+    }
+    if (!userEmail.trim() || !userEmail.includes('@')) {
+      setFormError('กรุณากรอกอีเมลให้ถูกต้อง');
+      return;
+    }
+
+    setFormError('');
+    saveLeaderboardEntry({
+      name: userName.trim(),
+      email: userEmail.trim(),
+      durationSeconds: Math.max(1, durationSeconds),
+      score: correctCount,
+      totalQuestions: totalCount,
+    });
+    setIsSubmitted(true);
+  };
 
   const getRankBadge = () => {
     if (correctCount === 5) {
@@ -108,13 +157,9 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
               </p>
             </div>
             <div className="text-center border-x border-white/10">
-              <p className="text-xs font-bold text-white/50 uppercase mb-1">ความแม่นยำ</p>
-              <p
-                className={`text-2xl sm:text-3xl font-mono font-bold ${
-                  isWin ? 'text-[#FFD100]' : 'text-amber-400'
-                }`}
-              >
-                {percentage}%
+              <p className="text-xs font-bold text-white/50 uppercase mb-1">เวลาที่ใช้</p>
+              <p className="text-2xl sm:text-3xl font-mono font-bold text-[#FFD100]">
+                {durationSeconds} <span className="text-xs text-white/50 font-sans">วิ</span>
               </p>
             </div>
             <div className="text-center">
@@ -129,22 +174,130 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
             </div>
           </div>
 
+          {/* Special Registration Form for Perfect Score 5/5 */}
+          {isPerfectScore && (
+            <div className="mt-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-[#FFD100]/15 to-[#FFD100]/5 border-2 border-[#FFD100]/50 shadow-[0_0_30px_rgba(255,209,0,0.15)] text-left max-w-lg mx-auto animate-fade-in">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-2xl bg-[#FFD100] text-black flex items-center justify-center shrink-0 font-bold shadow-md">
+                  <Trophy className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white">
+                    🎉 ลงบันทึกสถิติ 5 คะแนนเต็ม!
+                  </h3>
+                  <p className="text-xs text-white/70">
+                    เวลาสปีดรันของคุณ: <strong className="text-[#FFD100]">{durationSeconds} วินาที</strong>
+                  </p>
+                </div>
+              </div>
+
+              {!isSubmitted ? (
+                <form onSubmit={handleSubmitRecord} className="space-y-4">
+                  {formError && (
+                    <div className="p-3 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs font-bold">
+                      ⚠️ {formError}
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-xs font-bold text-white/80 mb-1.5">
+                      ชื่อผู้ทำแบบทดสอบ *
+                    </label>
+                    <div className="relative">
+                      <User className="w-4 h-4 text-white/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="text"
+                        placeholder="กรอกชื่อ-นามสกุล หรือ ฉายา..."
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                        className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/40 border border-white/20 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#FFD100] transition-all"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-white/80 mb-1.5">
+                      อีเมล (Email) *
+                    </label>
+                    <div className="relative">
+                      <Mail className="w-4 h-4 text-white/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="email"
+                        placeholder="example@domain.com"
+                        value={userEmail}
+                        onChange={(e) => setUserEmail(e.target.value)}
+                        className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/40 border border-white/20 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#FFD100] transition-all"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between text-xs text-white/80">
+                    <span className="flex items-center gap-1.5 font-bold text-white/60">
+                      <Zap className="w-4 h-4 text-[#FFD100]" />
+                      ระยะเวลาจากระบบ:
+                    </span>
+                    <span className="font-mono font-bold text-[#FFD100] text-sm">
+                      {durationSeconds} วินาที
+                    </span>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full py-3.5 px-6 rounded-xl bg-[#FFD100] hover:bg-[#ffe066] text-black font-extrabold text-sm transition-all shadow-lg shadow-[#FFD100]/25 cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <Send className="w-4 h-4" />
+                    <span>บันทึกสถิติลง Dashboard Leaderboard</span>
+                  </button>
+                </form>
+              ) : (
+                <div className="text-center py-4 space-y-3 animate-fade-in">
+                  <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 flex items-center justify-center mx-auto">
+                    <CheckCircle2 className="w-6 h-6" />
+                  </div>
+                  <h4 className="text-base font-bold text-emerald-300">
+                    บันทึกสถิติลง Leaderboard เรียบร้อยแล้ว!
+                  </h4>
+                  <p className="text-xs text-white/70">
+                    ขอบคุณที่ร่วมสนุก คุณสามารถเปิดดูตารางอันดับผู้นำได้ทันที
+                  </p>
+                  <button
+                    onClick={onOpenLeaderboard}
+                    className="w-full py-3 px-4 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-bold text-xs transition-all cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <Trophy className="w-4 h-4 text-amber-400" />
+                    <span>ดูตารางคะแนน Leaderboard</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mt-8">
             <button
               onClick={onPlayAgain}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-10 py-4 rounded-2xl bg-[#FFD100] hover:bg-[#ffe066] text-[#000000] font-black tracking-tight transition-all shadow-lg shadow-[#FFD100]/25 text-base cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-2xl bg-[#FFD100] hover:bg-[#ffe066] text-[#000000] font-black tracking-tight transition-all shadow-lg shadow-[#FFD100]/25 text-sm cursor-pointer"
             >
-              <RefreshCw className="w-5 h-5" />
+              <RefreshCw className="w-4 h-4" />
               <span>เล่นใหม่อีกครั้ง (สุ่ม 5 ข้อใหม่)</span>
             </button>
 
             <button
-              onClick={onOpenQuestionBank}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white/80 font-bold hover:bg-white/10 hover:text-white transition-all cursor-pointer"
+              onClick={onOpenLeaderboard}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-[#FFD100]/15 border border-[#FFD100]/30 text-[#FFD100] font-bold hover:bg-[#FFD100]/25 transition-all cursor-pointer text-sm"
             >
-              <BookOpen className="w-5 h-5 text-[#FFD100]" />
-              <span>ดูคลังคำถาม (15 ข้อ)</span>
+              <Trophy className="w-4 h-4" />
+              <span>ดู Dashboard (Leaderboard)</span>
+            </button>
+
+            <button
+              onClick={onOpenQuestionBank}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-white/5 border border-white/10 text-white/80 font-bold hover:bg-white/10 hover:text-white transition-all cursor-pointer text-sm"
+            >
+              <BookOpen className="w-4 h-4 text-[#FFD100]" />
+              <span>ดูคลังคำถาม</span>
             </button>
           </div>
         </div>

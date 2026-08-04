@@ -20,3 +20,13 @@ export type QuizStatus = 'intro' | 'playing' | 'result';
 export interface QuizSettings {
   timePerQuestion: number; // in seconds (e.g., 5, 10, 15, 20, 30, 60)
 }
+
+export interface LeaderboardEntry {
+  id: string;
+  name: string;
+  email: string;
+  durationSeconds: number;
+  score: number;
+  totalQuestions: number;
+  timestamp: number;
+}

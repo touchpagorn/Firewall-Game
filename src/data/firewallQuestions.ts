@@ -243,11 +243,29 @@ export const FIREWALL_QUESTIONS: QuizQuestion[] = [
   }
 ];
 
+export function shuffleOptionsForQuestion(question: QuizQuestion): QuizQuestion {
+  if (!question.options || question.options.length <= 1) return question;
+  const correctAnswerText = question.options[question.correctIndex] ?? question.options[0];
+  const shuffledOptions = [...question.options];
+  for (let i = shuffledOptions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+  }
+  const newCorrectIndex = shuffledOptions.indexOf(correctAnswerText);
+  return {
+    ...question,
+    options: shuffledOptions,
+    correctIndex: newCorrectIndex >= 0 ? newCorrectIndex : 0,
+  };
+}
+
 export function getRandomQuestions(count: number = 5): QuizQuestion[] {
   const shuffled = [...FIREWALL_QUESTIONS];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  return shuffled.slice(0, Math.min(count, shuffled.length));
+  return shuffled
+    .slice(0, Math.min(count, shuffled.length))
+    .map((q) => shuffleOptionsForQuestion(q));
 }

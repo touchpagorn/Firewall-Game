@@ -6,6 +6,7 @@ import { QuizCard } from './components/QuizCard';
 import { ResultScreen } from './components/ResultScreen';
 import { QuestionBankModal } from './components/QuestionBankModal';
 import { SetupModal } from './components/SetupModal';
+import { LeaderboardModal } from './components/LeaderboardModal';
 import {
   getStoredSettings,
   getStoredQuestions,
@@ -19,6 +20,11 @@ export default function App() {
   const [answers, setAnswers] = useState<UserAnswer[]>([]);
   const [isQuestionBankOpen, setIsQuestionBankOpen] = useState<boolean>(false);
   const [isSetupOpen, setIsSetupOpen] = useState<boolean>(false);
+  const [isLeaderboardOpen, setIsLeaderboardOpen] = useState<boolean>(false);
+
+  // Time & Speedrun Tracking State
+  const [quizStartTime, setQuizStartTime] = useState<number>(0);
+  const [totalDurationSeconds, setTotalDurationSeconds] = useState<number>(0);
 
   // Settings & Storage State
   const [timePerQuestion, setTimePerQuestion] = useState<number>(10);
@@ -40,6 +46,8 @@ export default function App() {
     setQuestions(randomFive);
     setCurrentIndex(0);
     setAnswers([]);
+    setQuizStartTime(Date.now());
+    setTotalDurationSeconds(0);
     setStatus('playing');
   };
 
@@ -59,6 +67,8 @@ export default function App() {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     } else {
+      const elapsed = Math.max(1, Math.round((Date.now() - quizStartTime) / 1000));
+      setTotalDurationSeconds(elapsed);
       setStatus('result');
     }
   };
@@ -85,6 +95,7 @@ export default function App() {
       <Header
         onOpenQuestionBank={() => setIsQuestionBankOpen(true)}
         onOpenSetup={() => setIsSetupOpen(true)}
+        onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
         onResetGame={startNewGame}
         isPlaying={status === 'playing' || status === 'result'}
         score={score}
@@ -118,6 +129,7 @@ export default function App() {
             onStartQuiz={startNewGame}
             onOpenQuestionBank={() => setIsQuestionBankOpen(true)}
             onOpenSetup={() => setIsSetupOpen(true)}
+            onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
             timePerQuestion={timePerQuestion}
             totalQuestionsInBank={totalQuestionsInBank}
           />
@@ -141,8 +153,10 @@ export default function App() {
           <ResultScreen
             questions={questions}
             answers={answers}
+            durationSeconds={totalDurationSeconds}
             onPlayAgain={startNewGame}
             onOpenQuestionBank={() => setIsQuestionBankOpen(true)}
+            onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
           />
         )}
       </main>
@@ -158,6 +172,12 @@ export default function App() {
         isOpen={isSetupOpen}
         onClose={() => setIsSetupOpen(false)}
         onSettingsUpdated={loadCurrentStorageData}
+      />
+
+      {/* Leaderboard / Dashboard Modal */}
+      <LeaderboardModal
+        isOpen={isLeaderboardOpen}
+        onClose={() => setIsLeaderboardOpen(false)}
       />
     </div>
   );
