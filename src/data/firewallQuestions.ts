@@ -149,12 +149,12 @@ export const FIREWALL_QUESTIONS: QuizQuestion[] = [
     id: 10,
     question: 'หากต้องการอนุญาตเฉพาะการเข้าถึงเว็บไซต์แบบปลอดภัย (HTTPS) ผ่าน Firewall ต้องเปิด Port ใด',
     options: [
-      'Port 21 (FTP)',
-      'Port 80 (HTTP)',
-      'Port 443 (HTTPS)',
-      'Port 22 (SSH)',
-      'Port 53 (DNS)',
-      'Port 3389 (RDP)'
+      'Port 4433',
+      'Port 8080',
+      'Port 443',
+      'Port 445',
+      'Port 533',
+      'Port 3128'
     ],
     correctIndex: 2,
     category: 'คุณสมบัติและการทำงาน',
