@@ -1,0 +1,6 @@
+{
+  "name": "Firewall Quiz Game",
+  "description": "เกมตอบคำถามเกี่ยวกับ Firewall สุ่ม 5 ข้อจากคลังคำถาม 15 ข้อ พร้อมเฉลยและคำอธิบายความรู้ด้านความปลอดภัยเครือข่าย",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

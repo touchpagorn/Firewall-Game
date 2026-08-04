@@ -1,0 +1,227 @@
+import { QuizQuestion } from '../types';
+
+export const FIREWALL_QUESTIONS: QuizQuestion[] = [
+  {
+    id: 1,
+    question: 'Feature ใดไม่ใช่ Feature ของ Firewall',
+    options: [
+      'Packet Filtering (การคัดกรองแพ็กเก็ตข้อมูล)',
+      'Network Address Translation (NAT)',
+      'Automatic Source Code Compilation (การแปลโค้ดโปรแกรมอัตโนมัติ)',
+      'Virtual Private Network (VPN Support)'
+    ],
+    correctIndex: 2,
+    category: 'คุณสมบัติและการทำงาน',
+    difficulty: 'ง่าย',
+    explanation: 'การแปลโค้ดโปรแกรม (Source Code Compilation) เป็นหน้าที่ของ Compiler ในการพัฒนาซอฟต์แวร์ ไม่ใช่คุณสมบัติหรือหน้าที่ของ Firewall ส่วน Packet Filtering, NAT และ VPN ล้วนเป็นคุณสมบัติมาตรฐานด้านเครือข่ายของ Firewall'
+  },
+  {
+    id: 2,
+    question: 'Firewall มีหน้าที่ทำอะไรเป็นหลักในระบบเครือข่าย',
+    options: [
+      'ตรวจสอบและควบคุมการรับ-ส่งข้อมูลที่ผ่านเข้าออกตามกฎความปลอดภัยที่กำหนด',
+      'เพิ่มความเร็วในการดาวน์โหลดไฟล์และบีบอัดข้อมูลอินเทอร์เน็ตให้เล็กลง',
+      'ซ่อมแซมสายเคเบิลเครือข่ายที่ชำรุดทางกายภาพอัตโนมัติ',
+      'สร้างสำรองข้อมูล (Backup) ของฮาร์ดดิสก์ในเซิร์ฟเวอร์ทุกวัน'
+    ],
+    correctIndex: 0,
+    category: 'หน้าที่หลัก',
+    difficulty: 'ง่าย',
+    explanation: 'หน้าที่หลักของ Firewall คือการเป็นกำแพงคอยตรวจสอบ (Inspect) และควบคุม (Control) การจราจรของข้อมูลที่ผ่านเข้า-ออกเครือข่าย โดยตัดสินใจอนุญาตหรือบล็อกตามกฎความปลอดภัย (Security Rules) ที่ผู้ดูแลระบบกำหนดไว้'
+  },
+  {
+    id: 3,
+    question: 'ข้อใดคือความหมายของนโยบาย "Default Deny" (หรือ Implicit Deny) ในการตั้งค่ากฎ Firewall',
+    options: [
+      'อนุญาตให้ทุกแพ็กเก็ตผ่านได้ ยกเว้นรายการที่ระบุห้ามไว้',
+      'ไม่อนุญาตให้การเชื่อมต่อใดๆ ผ่านเลย ยกเว้นรายการที่ระบุให้อนุญาตไว้อย่างชัดเจน',
+      'ปิดการทำงานของพอร์ตเครือข่ายทั้งหมดชั่วคราวเมื่อมีไฟดับ',
+      'ปฏิเสธการเข้าถึงเฉพาะผู้ใช้ที่ไม่ได้ลงทะเบียนอีเมล'
+    ],
+    correctIndex: 1,
+    category: 'นโยบายความปลอดภัย',
+    difficulty: 'ง่าย',
+    explanation: 'Default Deny หรือ Implicit Deny คือหลักการตั้งค่าความปลอดภัยที่เข้มงวดที่สุด โดยจะปฏิเสธ (Block/Deny) การเชื่อมต่อทั้งหมดเป็นค่าเริ่มต้น และจะอนุญาตเฉพาะทราฟฟิกที่ตรงกับกฎที่ได้รับอนุญาตอย่างชัดเจนเท่านั้น'
+  },
+  {
+    id: 4,
+    question: 'Stateful Inspection Firewall แตกต่างจาก Stateless Packet Filtering อย่างไร',
+    options: [
+      'Stateful สามารถจดจำสถานะและบริบทของการเชื่อมต่อ (Connection State) ได้',
+      'Stateful ทำงานได้เฉพาะกับสาย Fiber Optic เท่านั้น',
+      'Stateful ไม่สามารถตรวจสอบที่อยู่ IP ต้นทางและปลายทางได้',
+      'Stateful ไม่ต้องการใช้ไฟฟ้าหรือทรัพยากรซีพียูในการประมวลผล'
+    ],
+    correctIndex: 0,
+    category: 'ประเภท Firewall',
+    difficulty: 'ปานกลาง',
+    explanation: 'Stateful Inspection จะติดตามสถานะการเชื่อมต่อ (เช่น TCP Handshake, Session table) ทำให้รู้ว่าแพ็กเก็ตที่กลับมาเป็นส่วนหนึ่งของการเชื่อมต่อที่ถูกต้องหรือไม่ ในขณะที่ Stateless ตรวจสอบทีละแพ็กเก็ตอย่างอิสระโดยไม่ดูบริบท'
+  },
+  {
+    id: 5,
+    question: 'WAF (Web Application Firewall) ออกแบบมาเพื่อป้องกันการโจมตีในระดับใดเป็นหลัก',
+    options: [
+      'ระดับฮาร์ดแวร์และสายสัญญาณสื่อสาร (Physical Layer)',
+      'ระดับแอปพลิเคชันเว็บ เช่น SQL Injection และ Cross-Site Scripting (XSS)',
+      'ระดับไฟฟ้าลัดวงจรในห้องเซิร์ฟเวอร์',
+      'ระดับการกู้คืนรหัสผ่าน BIOS ของเมนบอร์ด'
+    ],
+    correctIndex: 1,
+    category: 'ประเภท Firewall',
+    difficulty: 'ปานกลาง',
+    explanation: 'WAF ทำงานในระดับ Layer 7 (Application Layer) โดยมุ่งเน้นปกป้องเว็บแอปพลิเคชันจากการโจมตีเฉพาะทาง เช่น SQL Injection, XSS, CSRF หรือ HTTP Flooding ซึ่ง Firewall เครือข่ายทั่วไปมักมองไม่เห็นเนื้อหาชั้นนี้'
+  },
+  {
+    id: 6,
+    question: 'DMZ (Demilitarized Zone) ในสถาปัตยกรรมของ Firewall มีวัตถุประสงค์เพื่ออะไร',
+    options: [
+      'แยกโซนเซิร์ฟเวอร์ที่ให้บริการสาธารณะออกจากเครือข่ายภายในองค์กรเพื่อความปลอดภัย',
+      'เป็นโซนสำหรับให้พนักงานเล่นเกมในเวลางานโดยไม่จำกัดความเร็ว',
+      'เป็นพื้นที่สำหรับเก็บสายเคเบิลที่ไม่ได้ใช้งานใน Data Center',
+      'เป็นโซนปิดกั้นอินเทอร์เน็ตถาวรไม่ให้ใครเข้าถึงได้เลย'
+    ],
+    correctIndex: 0,
+    category: 'สถาปัตยกรรม',
+    difficulty: 'ปานกลาง',
+    explanation: 'DMZ คือเครือข่ายย่อยที่ถูกแยกออกมาเพื่อวางเซิร์ฟเวอร์ที่ต้องเปิดให้บุคคลภายนอกเข้าถึง (เช่น Web Server, Mail Server) หากเซิร์ฟเวอร์ใน DMZ ถูกโจมตี แฮกเกอร์ก็ยังไม่สามารถทะลุเข้าสู่เครือข่ายภายใน (Internal Network) ได้ทันที'
+  },
+  {
+    id: 7,
+    question: 'NGFW (Next-Generation Firewall) เพิ่มความสามารถเด่นใดขึ้นมาจาก Firewall แบบดั้งเดิม',
+    options: [
+      'การตรวจสอบระดับแอปพลิเคชัน (Deep Packet Inspection / Application Awareness) และ IPS',
+      'การเปลี่ยนหน้าจอคอมพิวเตอร์ให้มีความละเอียด 4K อัตโนมัติ',
+      'การสร้างรหัสผ่าน Wi-Fi ใหม่ทุกๆ 5 วินาทีโดยไม่ต้องแจ้งผู้ใช้',
+      'การเพิ่มความจุแรมของเครื่องลูกข่ายผ่านเครือข่าย'
+    ],
+    correctIndex: 0,
+    category: 'ประเภท Firewall',
+    difficulty: 'ปานกลาง',
+    explanation: 'Next-Generation Firewall (NGFW) ผสานความสามารถพื้นฐานเข้ากับ Deep Packet Inspection (DPI), การจดจำแอปพลิเคชัน (Application Visibility & Control), ระบบป้องกันการบุกรุก (IPS) และการเชื่อมโยงข้อมูลภัยคุกคาม (Threat Intelligence)'
+  },
+  {
+    id: 8,
+    question: 'คุณสมบัติ NAT (Network Address Translation) บน Firewall มีประโยชน์อย่างไร',
+    options: [
+      'แปลงที่อยู่ Private IP เป็น Public IP เพื่อสื่อสารกับอินเทอร์เน็ต และช่วยพรางโครงสร้างภายใน',
+      'แปลภาษาอังกฤษในหน้าเว็บให้เป็นภาษาไทยอัตโนมัติ',
+      'เปลี่ยนชื่อโดเมนเนม (DNS) ให้เป็นหมายเลข MAC Address',
+      'แปลงสัญญาณเสียงเป็นข้อความบนเครือข่าย VoIP'
+    ],
+    correctIndex: 0,
+    category: 'คุณสมบัติและการทำงาน',
+    difficulty: 'ปานกลาง',
+    explanation: 'NAT ทำหน้าที่แปลงไอพีภายใน (Private IP) ให้เป็นไอพีสาธารณะ (Public IP) เมื่อออกสู่อินเทอร์เน็ต นอกจากช่วยประหยัด Public IP แล้ว ยังช่วยซ่อนโครงสร้างหมายเลขไอพีของอุปกรณ์ภายในไม่ให้ภายนอกเห็นโดยตรงอีกด้วย'
+  },
+  {
+    id: 9,
+    question: 'ข้อใดคือ "ข้อจำกัด" ที่ Firewall ทั่วไปไม่สามารถป้องกันได้',
+    options: [
+      'การคัดกรองหมายเลขพอร์ต (Port Filtering)',
+      'การโจมตีจากภายในองค์กรโดยผู้ใช้ที่มีสิทธิ์ถูกต้อง (Insider Threat หรือ Social Engineering)',
+      'การบล็อกการเข้าถึงจาก IP Address ที่น่าสงสัย',
+      'การจำกัดการเชื่อมต่อจากภายนอกสู่เซิร์ฟเวอร์ภายใน'
+    ],
+    correctIndex: 1,
+    category: 'ข้อจำกัด',
+    difficulty: 'ท้าทาย',
+    explanation: 'Firewall ไม่สามารถป้องกันความเสียหายที่เกิดจากผู้ใช้ภายในที่มีสิทธิ์ถูกต้อง (เช่น พนักงานถูกหลอกเอาพาสเวิร์ดด้วย Social Engineering หรือเจตนารั่วไหลข้อมูลเอง) รวมทั้งมัลแวร์ที่ผู้ใช้พกเข้ามาผ่าน USB Drive โดยตรง'
+  },
+  {
+    id: 10,
+    question: 'หากต้องการอนุญาตเฉพาะการเข้าถึงเว็บไซต์แบบปลอดภัย (HTTPS) ผ่าน Firewall ต้องเปิด Port ใด',
+    options: [
+      'Port 21',
+      'Port 80',
+      'Port 443',
+      'Port 22'
+    ],
+    correctIndex: 2,
+    category: 'คุณสมบัติและการทำงาน',
+    difficulty: 'ง่าย',
+    explanation: 'Port 443 เป็นพอร์ตมาตรฐานสำหรับ HTTPS (HTTP Secure) ที่เข้ารหัสข้อมูลด้วย SSL/TLS ส่วน Port 80 คือ HTTP ทั่วไป, Port 21 คือ FTP และ Port 22 คือ SSH'
+  },
+  {
+    id: 11,
+    question: 'ในการตั้งค่ากฎ (Rule) ของ Firewall ลำดับของกฎมีความสำคัญอย่างไร',
+    options: [
+      'ไม่มีความสำคัญ Firewall จะประมวลผลทุกกฎพร้อมกันเสมอ',
+      'มีความสำคัญมาก เพราะ Firewall มักตรวจสอบกฎจากบนลงล่าง (Top-to-Bottom) เมื่อเจอเงื่อนไขที่ตรงจะทำงานทันที',
+      'กฎที่ชื่อตัวอักษรยาวที่สุดจะถูกทำงานก่อนเสมอ',
+      'กฎที่เพิ่งสร้างล่าสุดจะถูกวางไว้บนสุดและลบกฎเก่าออกอัตโนมัติ'
+    ],
+    correctIndex: 1,
+    category: 'นโยบายความปลอดภัย',
+    difficulty: 'ท้าทาย',
+    explanation: 'Firewall ส่วนใหญ่ใช้หลักการ "First Match Wins" โดยตรวจสอบกฎจากบนลงล่าง (Top-down order) หากแพ็กเก็ตตรงกับกฎข้อใดแล้ว ระบบจะดำเนินการ (Allow หรือ Deny) ทันทีโดยไม่พิจารณากฎข้อล่างๆ ต่อ'
+  },
+  {
+    id: 12,
+    question: 'การกระทำ (Action) แบบ "Drop" ต่างจาก "Reject" เมื่อ Firewall พบแพ็กเก็ตที่ผิดกฎอย่างไร',
+    options: [
+      'Drop จะละทิ้งแพ็กเก็ตเงียบๆ ไม่ตอบกลับ ส่วน Reject จะละทิ้งและส่งข้อความแจ้งกลับไปยังผู้ส่ง',
+      'Drop ใช้กับเครือข่ายไร้สายเท่านั้น ส่วน Reject ใช้กับสายแลน',
+      'Drop อนุญาตให้ผ่านได้ครั้งเดียว ส่วน Reject ห้ามผ่านตลอดไป',
+      'ไม่มีความแตกต่างกัน เป็นเพียงชื่อเรียกต่างกันในแต่ละยี่ห้อ'
+    ],
+    correctIndex: 0,
+    category: 'คุณสมบัติและการทำงาน',
+    difficulty: 'ท้าทาย',
+    explanation: 'เมื่อใช้ Action "Drop" (หรือ Silent Discard) Firewall จะทิ้งแพ็กเก็ตไปเฉยๆ โดยไม่ส่งการแจ้งเตือนใดกลับไป ทำให้ผู้โจมตีไม่รู้ว่ามีเซิร์ฟเวอร์อยู่หรือไม่ ส่วน "Reject" จะทิ้งแพ็กเก็ตและส่งข้อความปฏิเสธ (เช่น ICMP Unreachable หรือ TCP RST) กลับไปบอกต้นทาง'
+  },
+  {
+    id: 13,
+    question: 'ข้อใดเป็นข้อมูลที่ "Packet Filtering Firewall" ระดับพื้นฐาน (Layer 3/4) ใช้ในการตัดสินใจคัดกรอง',
+    options: [
+      ' Source IP, Destination IP, Protocol และ Port Number',
+      'รายชื่อเพื่อนในโซเชียลมีเดียของผู้ใช้งาน',
+      'ขนาดหน้าจอและความละเอียดของจอแสดงผล',
+      'ข้อความในอีเมลว่ามีคำสุภาพหรือไม่'
+    ],
+    correctIndex: 0,
+    category: 'คุณสมบัติและการทำงาน',
+    difficulty: 'ปานกลาง',
+    explanation: 'Packet Filtering พื้นฐานใน Layer 3 (Network) และ Layer 4 (Transport) จะตรวจสอบส่วนหัวของแพ็กเก็ต (Header) ได้แก่ Source/Destination IP Address, โปรโตคอล (TCP/UDP/ICMP) และ Source/Destination Port Number'
+  },
+  {
+    id: 14,
+    question: 'ฟังก์ชัน VPN (Virtual Private Network) บน Firewall มีบทบาทอย่างไรด้านความปลอดภัย',
+    options: [
+      'สร้างอุโมงค์เชื่อมต่อที่เข้ารหัส (Encrypted Tunnel) เพื่อให้ส่งข้อมูลผ่านอินเทอร์เน็ตได้อย่างปลอดภัย',
+      'เพิ่มความดังของลำโพงเมื่อมีผู้บุกรุกเข้าเครือข่าย',
+      'ลบไวรัสออกจากไฟล์ทั้งหมดก่อนที่จะเปิดบนจอคอมพิวเตอร์',
+      'เปิดหน้าต่างโฆษณาเพื่อสร้างรายได้ให้ผู้ดูแลระบบ'
+    ],
+    correctIndex: 0,
+    category: 'คุณสมบัติและการทำงาน',
+    difficulty: 'ง่าย',
+    explanation: 'VPN บน Firewall ช่วยสร้างอุโมงค์สื่อสารส่วนตัวที่เข้ารหัส (IPsec หรือ SSL/TLS VPN Tunnel) ทำให้พนักงานที่ทำงานระยะไกลหรือสาขาต่างๆ สามารถสื่อสารกับสำนักงานใหญ่ผ่านอินเทอร์เน็ตได้อย่างปลอดภัย ป้องกันการดักฟังข้อมูลระหว่างทาง'
+  },
+  {
+    id: 15,
+    question: 'ข้อใดคือแนวทางที่ดีที่สุด (Best Practice) ในการบริหารจัดการ Firewall ขององค์กร',
+    options: [
+      'ตรวจสอบและอัปเดตกฎ (Rule Review) สม่ำเสมอ ลบกฎที่ไม่ได้ใช้ และเก็บ Log อย่างเป็นระบบ',
+      'ปิดระบบ Logging เพื่อประหยัดพื้นที่ฮาร์ดแวร์และไม่เปลืองไฟ',
+      'เปิดพอร์ตทุกพอร์ตไว้ก่อนเพื่อไม่ให้ผู้ใช้คอมเพลนเรื่องใช้งานไม่ได้',
+      'ให้สิทธิ์ระดับ Admin แก่พนักงานทุกคนในบริษัทเพื่อช่วยกันตั้งค่า'
+    ],
+    correctIndex: 0,
+    category: 'นโยบายความปลอดภัย',
+    difficulty: 'ปานกลาง',
+    explanation: 'Best Practice ที่สำคัญในการจัดการ Firewall คือการใช้หลัก Least Privilege, กำหนดนโยบาย Default Deny, ทบทวนและทำความสะอาดกฎสม่ำเสมอ (Rule Audit), ติดตั้งแพตช์ความปลอดภัย และบันทึก Log เพื่อตรวจสอบย้อนหลังเมื่อเกิดเหตุฉุกเฉิน'
+  }
+];
+
+/**
+ * Helper function to randomly pick `count` questions from FIREWALL_QUESTIONS.
+ * Uses Fisher-Yates shuffle on a copy of the array.
+ */
+export function getRandomQuestions(count: number = 5): QuizQuestion[] {
+  const shuffled = [...FIREWALL_QUESTIONS];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, Math.min(count, shuffled.length));
+}
