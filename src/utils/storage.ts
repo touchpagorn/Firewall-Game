@@ -63,12 +63,38 @@ export function resetStoredQuestions(): QuizQuestion[] {
   return FIREWALL_QUESTIONS;
 }
 
+/**
+ * Shuffles the choices (options) of a question while preserving the correct answer index mapping.
+ */
+export function shuffleQuestionOptions(question: QuizQuestion): QuizQuestion {
+  if (!question.options || question.options.length <= 1) return question;
+
+  const correctAnswerText = question.options[question.correctIndex] ?? question.options[0];
+  const shuffledOptions = [...question.options];
+
+  for (let i = shuffledOptions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+  }
+
+  const newCorrectIndex = shuffledOptions.indexOf(correctAnswerText);
+
+  return {
+    ...question,
+    options: shuffledOptions,
+    correctIndex: newCorrectIndex >= 0 ? newCorrectIndex : 0,
+  };
+}
+
 export function getRandomQuestionsFromStore(count: number = 5): QuizQuestion[] {
   const allQuestions = getStoredQuestions();
-  const shuffled = [...allQuestions];
-  for (let i = shuffled.length - 1; i > 0; i--) {
+  const shuffledQuestions = [...allQuestions];
+  for (let i = shuffledQuestions.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    [shuffledQuestions[i], shuffledQuestions[j]] = [shuffledQuestions[j], shuffledQuestions[i]];
   }
-  return shuffled.slice(0, Math.min(count, shuffled.length));
+  const selected = shuffledQuestions.slice(0, Math.min(count, shuffledQuestions.length));
+
+  // Randomize choices order (A-F) for each selected question
+  return selected.map((q) => shuffleQuestionOptions(q));
 }

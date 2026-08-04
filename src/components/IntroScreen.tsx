@@ -45,9 +45,9 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({
             <div className="w-9 h-9 rounded-xl bg-[#FFD100]/20 border border-[#FFD100]/30 flex items-center justify-center text-[#FFD100] mb-1">
               <ShieldCheck className="w-5 h-5" />
             </div>
-            <h3 className="text-sm font-bold text-white">สุ่มโจทย์ 5 ข้อ</h3>
+            <h3 className="text-sm font-bold text-white">สุ่มโจทย์ 5 ข้อ (6 ตัวเลือก A-F)</h3>
             <p className="text-xs text-white/60 leading-relaxed">
-              ระบบสุ่มคำถาม 5 ข้อจากคลังคำถามทั้งหมด {totalQuestionsInBank} ข้อในแต่ละรอบ
+              สุ่มโจทย์ 5 ข้อจากคลังคำถาม {totalQuestionsInBank} ข้อ พร้อมสุ่มลำดับตัวเลือก A-F ใหม่ทุกครั้ง
             </p>
           </div>
 

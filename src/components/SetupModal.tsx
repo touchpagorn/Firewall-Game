@@ -47,7 +47,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
 
   // Form Fields
   const [formQuestion, setFormQuestion] = useState('');
-  const [formOptions, setFormOptions] = useState<[string, string, string, string]>(['', '', '', '']);
+  const [formOptions, setFormOptions] = useState<string[]>(['', '', '', '', '', '']);
   const [formCorrectIndex, setFormCorrectIndex] = useState<number>(0);
   const [formCategory, setFormCategory] = useState('คุณสมบัติและการทำงาน');
   const [formDifficulty, setFormDifficulty] = useState<'ง่าย' | 'ปานกลาง' | 'ท้าทาย'>('ง่าย');
@@ -98,7 +98,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
     setEditingQuestion(null);
     setIsAdding(true);
     setFormQuestion('');
-    setFormOptions(['', '', '', '']);
+    setFormOptions(['', '', '', '', '', '']);
     setFormCorrectIndex(0);
     setFormCategory('คุณสมบัติและการทำงาน');
     setFormDifficulty('ง่าย');
@@ -110,7 +110,9 @@ export const SetupModal: React.FC<SetupModalProps> = ({
     setIsAdding(false);
     setEditingQuestion(q);
     setFormQuestion(q.question);
-    setFormOptions([...q.options] as [string, string, string, string]);
+    const opts = [...q.options];
+    while (opts.length < 6) opts.push('');
+    setFormOptions(opts.slice(0, 6));
     setFormCorrectIndex(q.correctIndex);
     setFormCategory(q.category);
     setFormDifficulty(q.difficulty);
@@ -131,7 +133,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
       return;
     }
     if (formOptions.some((opt) => !opt.trim())) {
-      setFormError('กรุณากรอกตัวเลือกให้ครบทั้ง 4 ข้อ');
+      setFormError('กรุณากรอกตัวเลือกให้ครบทั้ง 6 ข้อ (A-F)');
       return;
     }
     if (!formExplanation.trim()) {
@@ -145,7 +147,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
       const newQuestion: QuizQuestion = {
         id: newId,
         question: formQuestion.trim(),
-        options: formOptions.map((opt) => opt.trim()) as [string, string, string, string],
+        options: formOptions.map((opt) => opt.trim()),
         correctIndex: formCorrectIndex,
         category: formCategory.trim() || 'ทั่วไป',
         difficulty: formDifficulty,
@@ -161,7 +163,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
           ? {
               ...q,
               question: formQuestion.trim(),
-              options: formOptions.map((opt) => opt.trim()) as [string, string, string, string],
+              options: formOptions.map((opt) => opt.trim()),
               correctIndex: formCorrectIndex,
               category: formCategory.trim() || 'ทั่วไป',
               difficulty: formDifficulty,
@@ -203,7 +205,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
   };
 
   const handleOptionChange = (index: number, val: string) => {
-    const copy = [...formOptions] as [string, string, string, string];
+    const copy = [...formOptions];
     copy[index] = val;
     setFormOptions(copy);
   };
@@ -421,7 +423,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                   {/* Options (A, B, C, D) & Correct Radio */}
                   <div>
                     <label className="block text-xs font-bold text-white/80 mb-2">
-                      2. ตัวเลือกคำตอบ 4 ข้อ และเลือกข้อที่ถูกต้อง (Correct Option) *
+                      2. ตัวเลือกคำตอบ 6 ข้อ (A-F) และเลือกข้อที่ถูกต้อง (Correct Option) *
                     </label>
                     <div className="space-y-2.5">
                       {formOptions.map((opt, idx) => (

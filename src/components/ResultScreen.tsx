@@ -195,7 +195,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
                     ) : isTimeout ? (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold border border-amber-500/40">
                         <Clock className="w-4 h-4" />
-                        <span>หมดเวลา 10 วินาที (0)</span>
+                        <span>หมดเวลา (0)</span>
                       </span>
                     ) : (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 text-xs font-bold border border-rose-500/40">

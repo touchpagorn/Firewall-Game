@@ -194,9 +194,9 @@ export const QuizCard: React.FC<QuizCardProps> = ({
         </h2>
 
         {/* Options Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
           {question.options.map((option, idx) => {
-            const letter = String.fromCharCode(65 + idx); // A, B, C, D
+            const letter = String.fromCharCode(65 + idx); // A, B, C, D, E, F
             const isCorrect = idx === question.correctIndex;
             const isSelected = idx === currentSelectedIndex;
 
@@ -205,27 +205,27 @@ export const QuizCard: React.FC<QuizCardProps> = ({
                 key={idx}
                 onClick={() => handleOptionClick(idx)}
                 disabled={hasAnswered}
-                className={`group relative flex items-center p-5 sm:p-6 rounded-2xl transition-all text-left ${getOptionButtonClass(
+                className={`group relative flex items-center p-4 sm:p-5 rounded-2xl transition-all text-left ${getOptionButtonClass(
                   idx
                 )} ${!hasAnswered ? 'cursor-pointer active:scale-[0.99]' : ''}`}
               >
                 <div
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg font-mono mr-4 shrink-0 transition-all ${getLetterCircleClass(
+                  className={`w-9 h-9 rounded-xl flex items-center justify-center text-base font-mono mr-3.5 shrink-0 transition-all ${getLetterCircleClass(
                     idx
                   )}`}
                 >
                   {letter}
                 </div>
 
-                <span className="text-base sm:text-lg flex-1 leading-snug">
+                <span className="text-sm sm:text-base flex-1 leading-snug">
                   {option}
                 </span>
 
                 {hasAnswered && isCorrect && (
-                  <CheckCircle2 className="w-6 h-6 text-emerald-400 shrink-0 ml-3" />
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 ml-2.5" />
                 )}
                 {hasAnswered && isSelected && !isCorrect && (
-                  <XCircle className="w-6 h-6 text-rose-400 shrink-0 ml-3" />
+                  <XCircle className="w-5 h-5 text-rose-400 shrink-0 ml-2.5" />
                 )}
               </button>
             );
@@ -240,7 +240,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({
                 {isTimeout ? (
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-sm">
                     <AlertCircle className="w-4 h-4" />
-                    <span>⏰ หมดเวลา 10 วินาที!</span>
+                    <span>⏰ หมดเวลา {timePerQuestion} วินาที!</span>
                   </div>
                 ) : currentSelectedIndex === question.correctIndex ? (
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold text-sm">

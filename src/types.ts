@@ -1,8 +1,8 @@
 export interface QuizQuestion {
   id: number;
   question: string;
-  options: [string, string, string, string]; // exactly 4 options
-  correctIndex: number; // 0 to 3
+  options: string[]; // array of choices (6 options A-F)
+  correctIndex: number; // 0 to 5
   category: string;
   difficulty: 'ง่าย' | 'ปานกลาง' | 'ท้าทาย';
   explanation: string;
